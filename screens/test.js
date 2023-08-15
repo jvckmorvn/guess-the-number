@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import NumberContainer from '../components/game/NumberContainer';
 import Card from '../components/ui/Card';
-import InstructionText from '../components/ui/InstructionText';
+import InstructionsText from '../components/ui/InstructionsText';
 import PrimaryButton from '../components/ui/PrimaryButton';
 import Title from '../components/ui/Title';
 import GuessLogItem from '../components/game/GuessLogItem';
@@ -22,7 +22,7 @@ function generateRandomBetween(min, max, exclude) {
 let minBoundary = 1;
 let maxBoundary = 100;
 
-function GameScreen({ userNumber, onGameOver }) {
+export default function GameScreen({ userNumber, onGameOver }) {
   const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [guessRounds, setGuessRounds] = useState([initialGuess]);
@@ -43,8 +43,8 @@ function GameScreen({ userNumber, onGameOver }) {
       (direction === 'lower' && currentGuess < userNumber) ||
       (direction === 'greater' && currentGuess > userNumber)
     ) {
-      Alert.alert("Don't lie!", 'You know that this is wrong...', [
-        { text: 'Sorry!', style: 'cancel' },
+      Alert.alert('Liar', 'You are lying.', [
+        { text: 'Sorry!', style: 'default' },
       ]);
       return;
     }
@@ -71,9 +71,9 @@ function GameScreen({ userNumber, onGameOver }) {
       <Title>Opponent's Guess</Title>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card>
-        <InstructionText style={styles.instructionText}>
+        <InstructionsText style={styles.instructionsText}>
           Higher or lower?
-        </InstructionText>
+        </InstructionsText>
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
             <PrimaryButton onPress={nextGuessHandler.bind(this, 'lower')}>
@@ -103,14 +103,12 @@ function GameScreen({ userNumber, onGameOver }) {
   );
 }
 
-export default GameScreen;
-
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 24,
   },
-  instructionText: {
+  instructionsText: {
     marginBottom: 12,
   },
   buttonsContainer: {
@@ -122,5 +120,5 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
     padding: 16,
-  },
+  }
 });
